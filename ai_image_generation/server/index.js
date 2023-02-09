@@ -6,6 +6,8 @@ import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
 
+const path = require('path')
+
 dotenv.config();
 
 const app = express();
@@ -20,6 +22,14 @@ app.get('/', async (req, res) => {
     message: 'Hello from DALL.E!',
   });
 });
+
+// for static files - hosting purpose
+app.use(express.static(path.join(__dirname , './client/dist')));
+
+app.get('*' , function(req,res){
+  res.sendFile(path.join(__dirname ,"./client/dist/index.html"))
+});
+
 
 const startServer = async () => {
   try {
